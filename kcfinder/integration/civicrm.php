@@ -99,6 +99,13 @@ function authenticate_drupal($config) {
   }
   $base_url = substr($base_url, 0, $pos); // drupal root absolute url
 
+  //In case that it's not loading the drupal user
+  global $user;
+  if(empty($user) && isset($_COOKIE[session_name()])) {
+    _drupal_session_read($_COOKIE[session_name()]);  
+  }
+
+
   CRM_Utils_System::loadBootStrap(CRM_Core_DAO::$_nullArray,true,false);
 
   // check if user has access permission...
