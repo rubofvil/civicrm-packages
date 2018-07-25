@@ -97,6 +97,13 @@ function authenticate_drupal($config) {
   if ($pos === FALSE) {
     $pos = strpos($base_url, '/profiles/');
   }
+  global $user;
+  if(empty($user) && isset($_COOKIE[session_name()])) {
+    require_once DRUPAL_ROOT . '/includes/bootstrap.inc';
+    drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
+    _drupal_session_read($_COOKIE[session_name()]);
+  }
+
   $base_url = substr($base_url, 0, $pos); // drupal root absolute url
 
   CRM_Utils_System::loadBootStrap(CRM_Core_DAO::$_nullArray,true,false);
